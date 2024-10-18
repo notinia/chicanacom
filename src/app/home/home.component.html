@@ -1,39 +1,43 @@
-<div id="manejaGP">
-    <div id="bAnt">
-        <a href="FechaAnteriorURL">
-            <mat-icon>keyboard_arrow_left</mat-icon>
-            <br>
-            Ant.
-        </a>
-    </div>
-    <div id="titulo">GP <br> ACTUAL</div>
-    <div id="bSig">
-        <a href="FechaSiguienteURL">
-            <mat-icon>keyboard_arrow_right</mat-icon>
-            <br>
-            Sig.
-        </a>
-    </div>
-</div>
+<div id="mainHome">
+    <div id="carreras">
+        <div id="manejaGP">
+            <a href="FechaAnteriorURL">
+                <div id="bAnt" style="display: flex; flex-direction: row; width: 80px; justify-content: center; height: 100%;">
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                    <br>
+                    Ant.
+                </div>
+            </a>
+            <div id="titulo">GP<br>ACTUAL</div>
+            <a href="FechaSiguienteURL">
+                <div id="bSig" style="display: flex; flex-direction: row; width: 80px; justify-content: center;">
+                    Sig.
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                    <br>
+                </div>
+            </a>
+        </div>
 
-<br style="clear: both">
+        <br style="clear: both">
 
-<div id="tablaCarreras">
-    <table [cellSpacing]="0">
-        <tbody>
-            <tr>
-                <td class="session-time"></td>
-                <td class="session-type"></td>
-                <td class="session-info"></td>
-            </tr>
-            <tr class="tituloin">
-                <td colspan="3">
-                    <a href="gpActualURL">
-                        GRAN PREMIO
-                    </a>
-                </td>
-            </tr>
-            
-        </tbody>
-    </table>
+        <div id="tablaCarreras">
+            <table [cellSpacing]="0">
+                <tbody>
+                    <tr>
+                        <td class="session-time"></td>
+                        <td class="session-type"></td>
+                        <td class="session-info"></td>
+                    </tr>
+                    <tr class="tituloin">
+                        <td colspan="3">
+                            <a href="gpActualURL">
+                                GRAN PREMIO
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

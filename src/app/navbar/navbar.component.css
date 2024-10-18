@@ -10,7 +10,7 @@
     overflow: auto;
 }
 
-#accordian h3{
+#accordian h3 {
     font-size: 16px;
     line-height: 125%;
     background: darkgrey;
@@ -41,15 +41,22 @@
     text-overflow: clip;
 }
 
-#accordian .items-menu li:nth-child(2n){
+li {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-content: center;
+}
+
+#accordian .items-menu li:nth-child(2n) {
     background-color: rgb(202, 20, 20);
 }
 
-#accordian .items-menu li:nth-child(2n+1){
+#accordian .items-menu li:nth-child(2n+1) {
     background-color: #000;
 }
 
-#accordian a{
+#accordian a {
     color: #fff;
     text-decoration: none;
 }
@@ -58,6 +65,7 @@ ul {
     padding-inline-start: 3px;
     padding-left: 2px;
 }
+
 
 .items-menu {
     background-color: black;
