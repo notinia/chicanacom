@@ -4,3 +4,13 @@
     width: 100%;
     background-color: greenyellow;
 }
+
+#principal{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: cyan;
+    justify-content: space-evenly;
+    align-items: baseline;
+}
+

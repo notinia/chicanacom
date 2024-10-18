@@ -1,16 +1,24 @@
-#main {
+#manejaGP {
     display: flex;
-    flex-direction: column;
-    width: 100%;  /*"responsivearlo" ocupa siempre el % restante*/
-    background-color: black;
-    /*max-height: 100%;*/
-}
-
-#fechaAnt{
+    flex-direction: row;
     width: 100%;
+    background-color: blueviolet;
 }
 
-#main a{
+#manejaGP #titulo {
+    display: flex;
+    width: 100%;
+    background: black;
+    color: #fff;
+    font-size: 15px;
+    text-align: center;
+    text-shadow: #000 .1em .1em .1em;
+    background: black;
+    border: 1px solid #000;
+    margin-bottom: 1em;
+}
+
+#main a {
     color: white;
     text-decoration: none;
     text-align: center;

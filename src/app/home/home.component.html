@@ -1,11 +1,39 @@
-<div id="main">
-    <!-- Selector de fechas -->
-    <a href="FechaAnteriorURL">
-        <div id="fechaAnt"><mat-icon>keyboard_arrow_left</mat-icon>
+<div id="manejaGP">
+    <div id="bAnt">
+        <a href="FechaAnteriorURL">
+            <mat-icon>keyboard_arrow_left</mat-icon>
             <br>
-            FechaAnterior
-        </div>
-    </a>
+            Ant.
+        </a>
+    </div>
+    <div id="titulo">GP <br> ACTUAL</div>
+    <div id="bSig">
+        <a href="FechaSiguienteURL">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+            <br>
+            Sig.
+        </a>
+    </div>
+</div>
 
-    
+<br style="clear: both">
+
+<div id="tablaCarreras">
+    <table [cellSpacing]="0">
+        <tbody>
+            <tr>
+                <td class="session-time"></td>
+                <td class="session-type"></td>
+                <td class="session-info"></td>
+            </tr>
+            <tr class="tituloin">
+                <td colspan="3">
+                    <a href="gpActualURL">
+                        GRAN PREMIO
+                    </a>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
 </div>
