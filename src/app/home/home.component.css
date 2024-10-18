@@ -1,0 +1,17 @@
+#main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;  /*"responsivearlo" ocupa siempre el % restante*/
+    background-color: black;
+    /*max-height: 100%;*/
+}
+
+#fechaAnt{
+    width: 100%;
+}
+
+#main a{
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}

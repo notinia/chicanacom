@@ -1,0 +1,64 @@
+#accordian {
+    background: rgb(202, 20, 20);
+    width: 150px;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    text-shadow: 1px 1px 1px #000;
+    float: left;
+    overflow: auto;
+}
+
+#accordian h3{
+    font-size: 16px;
+    line-height: 125%;
+    background: darkgrey;
+    color: white;
+    text-shadow: #000;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    box-shadow: inset 0 1px 0 0 black;
+}
+
+
+#accordian h4 {
+    box-shadow: inset 0 1px 0 0 black;
+    background: linear-gradient(to bottom, rgb(202, 20, 20) 5%, white 100%);
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid black;
+    display: block;
+    cursor: pointer;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+#accordian .items-menu li:nth-child(2n){
+    background-color: rgb(202, 20, 20);
+}
+
+#accordian .items-menu li:nth-child(2n+1){
+    background-color: #000;
+}
+
+#accordian a{
+    color: #fff;
+    text-decoration: none;
+}
+
+ul {
+    padding-inline-start: 3px;
+    padding-left: 2px;
+}
+
+.items-menu {
+    background-color: black;
+}
