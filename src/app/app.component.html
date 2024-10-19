@@ -3,15 +3,12 @@
     <app-top-bar></app-top-bar>
 </header>
 
-<body>
-    <!-- Home -->
-    <app-layout></app-layout>
-    <!-- Wrapper -->
-    <div class="wrapper">
-        <router-outlet></router-outlet>
+<div class="layout-container">
+    <!-- Sidebar -->
+    <app-navbar></app-navbar>
+
+    <!-- Main content area (donde router-outlet reemplaza contenido dinámico) -->
+    <div class="content">
+        <router-outlet></router-outlet> <!-- Esto debe reemplazar el contenido según la ruta -->
     </div>
-</body>
-
-
-
-<!-- Footer -->
+</div>
