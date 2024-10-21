@@ -20,6 +20,7 @@ export interface Conductor {
 })
 export class ConductoresComponent implements OnInit {
   conductores: Conductor[] = [];
+  conductoresUnicos: Conductor[] = []; //buscar formas de optimizar
   conductoresPaginados: Conductor[] = []; // Lista que contiene los conductores por página
   pageSize = 10;  // Elementos por página
   currentPage = 1;  // Página actual
@@ -29,6 +30,8 @@ export class ConductoresComponent implements OnInit {
   ngOnInit(): void {
     this.getConductores().subscribe(data => {
       this.conductores = data;
+      this.filtrarConductoresUnicos();  // Filtrar para obtener solo conductores únicos
+
       this.setPage(this.currentPage); // Establecer la página inicial
     });
   }
@@ -38,11 +41,21 @@ export class ConductoresComponent implements OnInit {
     return this.http.get<Conductor[]>('https://api.openf1.org/v1/drivers');
   }
 
+  filtrarConductoresUnicos() {
+    const nombresUnicos = new Set<string>();
+    this.conductoresUnicos = this.conductores.filter(conductor => {
+      if (!nombresUnicos.has(conductor.full_name)) {
+        nombresUnicos.add(conductor.full_name);
+        return true;  // Incluir conductor si no ha sido añadido
+      }
+      return false;  // Descartar conductor duplicado
+    });
+  }
   // Cambiar la página actual
   setPage(page: number) {
     const startIndex = (page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.conductoresPaginados = this.conductores.slice(startIndex, endIndex);
+    this.conductoresPaginados = this.conductoresUnicos.slice(startIndex, endIndex);
     this.currentPage = page;
   }
 
@@ -55,7 +68,7 @@ export class ConductoresComponent implements OnInit {
 
   // Método para ir a la página siguiente
   nextPage() {
-    if (this.currentPage < Math.ceil(this.conductores.length / this.pageSize)) {
+    if (this.currentPage < Math.ceil(this.conductoresUnicos.length / this.pageSize)) {
       this.setPage(this.currentPage + 1);
     }
   }
