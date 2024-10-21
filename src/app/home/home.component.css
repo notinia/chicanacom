@@ -4,7 +4,7 @@
     align-items: center;
 }
 
-#carreras{
+#carreras {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,9 +52,54 @@
     flex-direction: row;
     width: 100%;
     justify-content: center;
+    text-align: center;
+    margin-top: 10px;
     align-items: center;
 }
 
+#tablaCarreras table {
+    width: 100%;
+    text-align: center;
+    border-spacing: 1.5px;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+#tablaCarreras a {
+    color: white;
+    text-decoration: none;
+}
+
 .tituloin {
-    background-color: #000;
+    text-decoration: none;
+    font-weight: 700;
+    background-color: rgb(69, 64, 64);
+}
+
+th, td {
+    border: 1px solid black;
+}
+
+.session-time {
+    background-color: rgb(202, 20, 20);
+    font-weight: 700;
+    color: white;
+    text-shadow: 1px 1px 1px #000;
+    width: 18%;
+}
+
+.session-type {
+    background-color: #e5e5e5;
+    overflow: hidden;
+    text-overflow: clip;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.session-info {
+    background-color: black;
+    color: white;
+    overflow: hidden;
+    text-overflow: clip;
+    width: 10%;
 }

@@ -2,7 +2,8 @@
     <div id="carreras">
         <div id="manejaGP">
             <a href="FechaAnteriorURL">
-                <div id="bAnt" style="display: flex; flex-direction: row; width: 80px; justify-content: center; height: 100%;">
+                <div id="bAnt"
+                    style="display: flex; flex-direction: row; width: 80px; justify-content: center; height: 100%;">
                     <mat-icon>keyboard_arrow_left</mat-icon>
                     <br>
                     Ant.
@@ -20,22 +21,115 @@
 
         <br style="clear: both">
 
-        <div id="tablaCarreras">
+        <div style="height: 3vh;"></div>
+
+        <!-- La cantidad de celdas de la tabla se debería modificar según la cantidad de actividades que se realizan en ese GP. Ej.: hay Practicas 1,2,3 Qualy y Carrera o se agrega una carrera Sprint intermedia. -->
+        <div id="tablaCarreras" class="1">
             <table [cellSpacing]="0">
                 <tbody>
                     <tr>
+                        <!-- Para cuando finaliza una sesión, cambiar estado a class="session-end" para reemplazarlo con un cartel de FIN -->
                         <td class="session-time"></td>
                         <td class="session-type"></td>
                         <td class="session-info"></td>
                     </tr>
                     <tr class="tituloin">
+                    
                         <td colspan="3">
                             <a href="gpActualURL">
                                 GRAN PREMIO
                             </a>
                         </td>
                     </tr>
+                    <!-- En un esquema normal, esta fila sería Práctica. Hacer que muestre solo la P actual e intercambiar? o hacer dos filas más para P2 y P3? -->
+                    <tr>
+                        <td id="diaSesion" class="session-time">diaHora</td>
+                        <td id="GP" class="session-type">tipoSesiondadadadadadadadadadadads</td>
+                        <td id="info" class="session-info">
+                            <a href="asda">
+                                <div style="width: 100%;">
+                                    <i class="material-icons md-18">add_box</i>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="diaSesion" class="session-time">diaHora</td>
+                        <td id="GP" class="session-type">tipoSesion</td>
+                        <td id="info" class="session-info">
+                            <a href="asda">
+                                <div style="width: 100%;">
+                                    <i class="material-icons md-18">add_box</i>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="diaSesion" class="session-time">diaHora</td>
+                        <td id="GP" class="session-type">tipoSesion</td>
+                        <td id="info" class="session-info">
+                            <a href="asda">
+                                <div style="width: 100%;">
+                                    <i class="material-icons md-18">add_box</i>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
+        <div id="tablaCarreras" class="2">
+            <table [cellSpacing]="0">
+                <tbody>
+                    <tr>
+                        <!-- Para cuando finaliza una sesión, cambiar estado a class="session-end" para reemplazarlo con un cartel de FIN -->
+                        <td class="session-time"></td>
+                        <td class="session-type"></td>
+                        <td class="session-info"></td>
+                    </tr>
+                    <tr class="tituloin">
+                    
+                        <td colspan="3">
+                            <a href="gpActualURL">
+                                GRAN PREMIO
+                            </a>
+                        </td>
+                    </tr>
+                    <!-- En un esquema normal, esta fila sería Práctica. Hacer que muestre solo la P actual e intercambiar? o hacer dos filas más para P2 y P3? -->
+                    <tr>
+                        <td id="diaSesion" class="session-time">diaHora</td>
+                        <td id="GP" class="session-type">tipoSesiondadadadadadadadadadadads</td>
+                        <td id="info" class="session-info">
+                            <a href="asda">
+                                <div style="width: 100%;">
+                                    <i class="material-icons md-18">add_box</i>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="diaSesion" class="session-time">diaHora</td>
+                        <td id="GP" class="session-type">tipoSesion</td>
+                        <td id="info" class="session-info">
+                            <a href="asda">
+                                <div style="width: 100%;">
+                                    <i class="material-icons md-18">add_box</i>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="diaSesion" class="session-time">diaHora</td>
+                        <td id="GP" class="session-type">tipoSesion</td>
+                        <td id="info" class="session-info">
+                            <a href="asda">
+                                <div style="width: 100%;">
+                                    <i class="material-icons md-18">add_box</i>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
