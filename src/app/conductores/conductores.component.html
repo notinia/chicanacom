@@ -22,6 +22,6 @@
 <!-- Botones de paginación -->
 <div class="pagination">
   <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
-  <span>Página {{ currentPage }} de {{ (conductores.length / pageSize) }}</span>
-  <button (click)="nextPage()" [disabled]="currentPage >= (conductores.length / pageSize)">Siguiente</button>
+  <span>Página {{ currentPage }} de {{ totalPages }}</span> <!-- Usamos totalPages en lugar del cálculo -->
+  <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Siguiente</button>
 </div>

@@ -1,0 +1,17 @@
+<h2>Calendario de Carreras F1 - 2024</h2>
+
+<ul>
+  <li *ngFor="let carrera of carrerasPaginadas">
+    <strong>{{ carrera.raceName }}</strong> - {{ carrera.Circuit.circuitName }}<br>
+    Localización: {{ carrera.Circuit.Location.locality }}, {{ carrera.Circuit.Location.country }}<br>
+    Fecha: {{ carrera.date }}<br>
+    Hora: {{ carrera.time }}
+  </li>
+</ul>
+
+<!-- Botones de paginación -->
+<div class="pagination">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+  <span>Página {{ currentPage }} de {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Siguiente</button>
+</div>
