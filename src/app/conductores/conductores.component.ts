@@ -25,7 +25,7 @@ export class ConductoresComponent implements OnInit {
   pageSize = 10;  // Elementos por página
   currentPage = 1;  // Página actual
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.getConductores().subscribe(data => {
@@ -51,6 +51,7 @@ export class ConductoresComponent implements OnInit {
       return false;  // Descartar conductor duplicado
     });
   }
+
   // Cambiar la página actual
   setPage(page: number) {
     const startIndex = (page - 1) * this.pageSize;
