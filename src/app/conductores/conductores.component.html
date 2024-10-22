@@ -1,6 +1,6 @@
 <h2>Lista de Conductores</h2>
 
-<table style="border: 1px;">
+<table class="styled-table">
   <thead>
     <tr>
       <th>Foto</th>
@@ -22,6 +22,6 @@
 <!-- Botones de paginación -->
 <div class="pagination">
   <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
-  <span>Página {{ currentPage }} de {{ totalPages }}</span> <!-- Usamos totalPages en lugar del cálculo -->
+  <span>Página {{ currentPage }} de {{ totalPages }}</span>
   <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Siguiente</button>
 </div>
