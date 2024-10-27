@@ -42,7 +42,7 @@ export class CarrerasComponent implements OnInit {
 
   // Método para obtener los datos de la API
   getCarreras(): Observable<any> {
-    return this.http.get<any>('https://ergast.com/api/f1/2024.json');
+    return this.http.get<any>('https://ergast.com/api/f1/current.json');
   }
 
   // Calcular el total de páginas basado en el número de carreras
