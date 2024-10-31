@@ -1,0 +1,17 @@
+/* Estilos globales o en app.component.css */
+
+.content-container {
+    display: flex;
+    min-height: 100vh; /* Ocupa toda la altura de la ventana */
+  }
+  
+  aside {
+    width: 250px;
+    padding: 20px;
+  }
+  
+  main {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  

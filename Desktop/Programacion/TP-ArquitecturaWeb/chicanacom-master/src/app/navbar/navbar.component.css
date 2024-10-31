@@ -1,0 +1,123 @@
+#accordian {
+    background: rgb(206, 69, 69);
+    width: 200px;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    text-shadow: 1px 1px 1px #000;
+    float: left;
+    overflow: auto;
+    border: 2px solid #000000;  
+    font-family: "Oswald",sans-serif;
+    letter-spacing: 1px ;
+}
+
+#accordian h3 {
+    font-size: 17px;
+    font-family: "Oswald";
+    font-weight: bold; 
+    border: 2px solid black;
+    letter-spacing: 1px ;
+    line-height: 125%;
+    background: rgb(151, 150, 150);
+    color: white;
+    text-shadow: #000;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    box-shadow: inset 0 1px 0 0 black;
+}
+
+
+#accordian h4 {
+    box-shadow: inset 0 1px 0 0 black;
+    background: linear-gradient(to bottom, rgb(1, 0, 0) 3%, rgb(182, 144, 144) 100%);
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgb(162, 0, 0);
+    display: block;
+    cursor: pointer;
+    color: #fff;
+    font-size: 20px;
+    font-family:  "Bevan";
+    letter-spacing: 1px ;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.botonch2{
+    display: flex;                   
+    align-items: center;            /* Centrar verticalmente el icono */
+    margin: 0 auto;
+    border:1px solid #000;
+    background: rgb(21, 21, 21);
+}
+.botonch2 img {
+    margin-right: 10px; /* Espacio entre la imagen y el texto */
+}
+
+.botonch2 span {
+    /*font-family:Arial, Helvetica, sans-serif;*/
+    font-family: "Assistant";
+    font-size: 15px; 
+    font-weight: bold;
+    letter-spacing: 1px ;
+}
+
+
+
+.material-icons {
+    margin-right: 10px;              /* Espacio entre  icono y  texto */
+}
+.link-icono {                       /*icono de home */
+    display: flex;                   
+    align-items: center;            /* Centrar verticalmente el icono */
+    text-align: left;               /* Alinear el texto a la izquierda */
+    padding: 10px;                  
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-content: center;
+}
+
+.items-l li a {
+    display: block;           /* Todo el ancho disponible */
+    text-align: center;       /* Centra solo el texto */
+}
+
+#accordian .items-menu li:nth-child(2n) {
+    background-color: rgb(202, 20, 20);
+}
+
+#accordian .items-menu li:nth-child(2n+1) {
+    background-color: #000;
+}
+.items-menu-equipos {
+    height: 200px;           /* Altura específica para Equipos */
+    overflow-y: auto;        /* Barra de desplazamiento en altura */
+    padding: 10px;
+    border: 1px solid #ccc;  
+}
+#accordian a {
+    color: #fff;
+    text-decoration: none;
+}
+
+ul {
+    padding-inline-start: 6px;
+    padding-left: 2px;
+}
+
+
+.items-menu {
+    background-color: black;
+}
+
