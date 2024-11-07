@@ -1,0 +1,27 @@
+<h2>Lista de Conductores</h2>
+
+<table class="styled-table">
+  <thead>
+    <tr>
+      <th>Foto</th>
+      <th>Nombre</th>
+      <th>Equipo</th>
+      <th>País</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let conductor of conductoresPaginados">
+      <td><img [src]="conductor.headshot_url" alt="{{conductor.full_name}}" width="50"></td>
+      <td>{{ conductor.full_name }}</td>
+      <td>{{ conductor.team_name }}</td>
+      <td>{{ conductor.country_code }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Botones de paginación -->
+<div class="pagination">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+  <span>Página {{ currentPage }} de {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Siguiente</button>
+</div>
