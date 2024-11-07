@@ -85,6 +85,7 @@ th, td {
     font-weight: 700;
     color: white;
     text-shadow: 1px 1px 1px #000;
+    word-wrap: break-word;
     width: 18%;
 }
 

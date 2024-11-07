@@ -41,16 +41,21 @@
                         </td>
                     </tr>
                     <!-- En un esquema normal, esta fila sería Práctica. Hacer que muestre solo la P actual e intercambiar? o hacer dos filas más para P2 y P3? -->
-                    <tr>
-                        <td id="diaSesion" class="session-time"> {{ proximaCarrera?.FirstPractice?.date }} </td>
-                        <td id="GP" class="session-type">tipoSesiondadadadadadadadadadadads</td>
+                    <tr >
+                        
+                        <td id="diaSesion" class="session-time" *ngIf = "isLoaded"> {{ proximaCarrera?.FirstPractice?.time }} </td>
+                        <td id="GP" class="session-type"> </td>
                         <td id="info" class="session-info">
-                            <a href="asda">
+                            <a href="http://localhost:4200/masInfo">
                                 <div style="width: 100%;">
                                     <i class="material-icons md-18">add_box</i>
                                 </div>
                             </a>
                         </td>
+                        
+                        
+
+
                     </tr>
                     <tr>
                         <td id="diaSesion" class="session-time">diaHora</td>
