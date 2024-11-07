@@ -15,8 +15,8 @@ export interface Carrera {
     round: string;
     raceName: string;
     Circuit: Circuit;
-    date: Date;        
-    time: string;       
+    date: Date;
+    time: string;
     FirstPractice?: {
         date: Date;
         time: string;
@@ -53,9 +53,7 @@ export interface F1Response {
     providedIn: 'root'
 })
 
-
 export class CarrerasService {
-
     private readonly API_URL = 'https://ergast.com/api/f1/current.json';
 
     constructor(private http: HttpClient) { }
@@ -124,5 +122,4 @@ export class CarrerasService {
             horario: horario
         };
     }
-
 }

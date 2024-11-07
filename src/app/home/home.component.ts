@@ -2,58 +2,82 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CarrerasService, Carrera } from '../../services/carreras.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { combineLatest } from 'rxjs';
+
+/*
+Los observables emiten y si hay alguien suscripto se le avisa y se le pasa un valor. En este caso no va a suceder porque son observables "fríos" que emiten una sola vez (todas las llamadas a APIs restful son así), pero si tenés un observable que persiste luego de emitir una vez se puede triggerear de nuevo ese flow
+*/
+
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [MatIconModule, NgFor, NgIf],
+  providers: [CarrerasService],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 
-
 // SEGUIR CON LA IMPLEMENTACIÓN DE LAS SESIONES ORDENADAS (PARA DISPLAYEAR DIA FECAH CORRESPONDIANTE Y TIPOSESION)
-  // VER POR QUÉ EL PROXIMACARRERA ES NULL CUANDO SE EJECUTA LA FUNCION PARA CARGAR EL ARRAY DE SESIONES DE CARRERA.
+// VER POR QUÉ EL PROXIMACARRERA ES NULL CUANDO SE EJECUTA LA FUNCION PARA CARGAR EL ARRAY DE SESIONES DE CARRERA.
+/*
+La rule of thumb es:
+1) onInit porque necesitás a los inputs inicializados
+2) afterViewInit porque necesitás los viewchilds inicializados
+*/
 
 export class HomeComponent {
-  carreras: Carrera[] = [];
-  carrerassprint: Carrera[] = [];
-  proximaCarrera: Carrera | null = null;
+  carreras: Carrera[];
+  carrerassprint: Carrera[];
+  proximaCarrera: Carrera | undefined;
   sesionesProximaCarrera: Array<{
     fecha: Date;
     tipo: string;
-  }> = [];
+  }>;
 
-  constructor(private carreraService: CarrerasService) { }
+  constructor(
+    private carreraService: CarrerasService
+  ) {
+    this.carreras = [];
+    this.carrerassprint = [];
+    this.proximaCarrera = undefined;
+    this.sesionesProximaCarrera = [];
 
-  async ngOnInit() : Promise<any> {
-    await this.cargarDatos();
+    this.cargarDatos();
+    console.log("carrera: ", this.proximaCarrera);
     this.ordenarSesiones();
     console.log('Sesiones:', this.sesionesProximaCarrera);
   }
 
-  private async cargarDatos() {
-    // Obtener todas las carreras
-    this.carreraService.getCarreras().subscribe(carreras => {
-      this.carreras = carreras;
-    });
-    try {
-      // Obtener la próxima carrera
-      this.carreraService.getProximaCarrera().subscribe(carrera => {
-        this.proximaCarrera = carrera;
+  ngOnInit(): void {
+  }
+
+  private cargarDatos() {
+    combineLatest({
+      carreras: this.carreraService.getCarreras(),
+      proximaCarrera: this.carreraService.getProximaCarrera(),
+      carreraSprint: this.carreraService.getCarrerasSprint()
+    }).subscribe({
+      next: ({ carreras, proximaCarrera, carreraSprint }) => {
+        // Lo que sea que hacés con lo que devuelven las APIs
+        this.carreras = carreras;
+        this.proximaCarrera = proximaCarrera;
         if (this.proximaCarrera) {
           this.carreraService.getFechaHoraLocal(this.proximaCarrera);
         }
-      });
-      this.carreraService.getCarrerasSprint().subscribe(carreras => {
-        this.carrerassprint = carreras;
-      });
-    } catch (error) {
-      console.error('Error:', error);
-    }
+        this.carrerassprint = carreraSprint;
+      },
+      error: (error) => {
+        // Manejo de errores
+        console.log(error);
+      }
+    })
   }
 
   private ordenarSesiones() {
+
+    console.log("Proxima carrera: ", this.proximaCarrera);
+
     if (!this.proximaCarrera) return;
 
     this.sesionesProximaCarrera.length = 0;
@@ -61,6 +85,7 @@ export class HomeComponent {
     // Debug the incoming data
     console.log('Próxima carrera data:', this.proximaCarrera);
 
+    //REEMPLAZAR POR CASE O IF ANIDADOS CUANDO SE SOLUCIONE.
     // Add First Practice
     if (this.proximaCarrera.FirstPractice?.time) {
       console.log('Adding FP1');
