@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { from, Observable } from 'rxjs';
+import { Auth, user, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { from, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,12 @@ import { from, Observable } from 'rxjs';
 export class AuthService {
 
   constructor(private auth: Auth) {}
+
+  isAuthenticated(): Observable<boolean> {
+    return user(this.auth).pipe(
+      map((user: User | null) => !!user)  // Devuelve true si el usuario existe
+    );
+  }
 
   // Método para registro de usuario
   register(email: string, password: string): Observable<any> {
