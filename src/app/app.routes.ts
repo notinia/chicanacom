@@ -3,7 +3,7 @@ import { CarrerasComponent } from './carreras/carreras.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './auth.guard';
-
+import { LoginGuard } from './login.guard';
 export const routes: Routes = [
   {
     path: 'home',
@@ -22,7 +22,8 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'register',
@@ -30,11 +31,11 @@ export const routes: Routes = [
   },
   { 
     path: '', 
-    redirectTo: '/home', 
+    redirectTo: '/login', 
     pathMatch: 'full' 
   },
   { 
     path: '**', 
-    redirectTo: '/home' 
+    redirectTo: '/login',
   }
 ];
