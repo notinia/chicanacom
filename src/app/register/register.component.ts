@@ -1,52 +1,45 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { ErrorModalComponent } from '../error-modal/error-modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  imports: [FormsModule, ErrorModalComponent]
+  imports: [FormsModule, CommonModule]
 })
 export class RegisterComponent {
-  email = '';
-  password = '';
-  registrationError: string | null = null;
-  isModalVisible: boolean = false;
+  email: string = '';
+  password: string = '';
+  errorMessage: string | null = null;  // Asegúrate de que esta línea esté presente y correcta
 
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
+    this.errorMessage = null;  // Limpiar el mensaje de error al intentar de nuevo
     this.authService.register(this.email, this.password).subscribe({
-      next: (user) => {
-        console.log('Registration successful:', user);
-        this.registrationError = null; // Limpiar cualquier error previo
-        this.isModalVisible = false;
+      next: () => {
         this.router.navigate(['/home']);
       },
       error: (error) => {
-        console.error('Registration failed:', error);
-        
-        // Captura el mensaje de error específico
-        if (error.code === 'auth/invalid-email') {
-          this.registrationError = 'El correo electrónico ingresado no es válido.';
-        } else if (error.code === 'auth/email-already-in-use') {
-          this.registrationError = 'El correo electrónico ya está en uso. Por favor, utiliza otro correo.';
-        } else if (error.code === 'auth/weak-password') {
-          this.registrationError = 'La contraseña es demasiado débil. Por favor, ingresa una contraseña más segura.';
-        } else {
-          this.registrationError = 'Hubo un error al registrar tu cuenta. Por favor, intenta de nuevo.';
-        }
-
-        this.isModalVisible = true; // Muestra el modal con el mensaje de error
+        console.error('Error en el registro:', error);
+        this.errorMessage = this.getErrorMessage(error);
       }
     });
   }
 
-  closeModal() {
-    this.isModalVisible = false; // Cierra el modal
+  private getErrorMessage(error: any): string {
+    if (error.code === 'auth/email-already-in-use') {
+      return 'El correo electrónico ya está en uso. Por favor, usa otro correo.';
+    } else if (error.code === 'auth/invalid-email') {
+      return 'El correo electrónico no es válido. Por favor, verifica e intenta nuevamente.';
+    } else if (error.code === 'auth/weak-password') {
+      return 'La contraseña es demasiado débil. Por favor, usa una contraseña más segura.';
+    } else {
+      return 'Ocurrió un error al registrarse. Por favor, intenta nuevamente.';
+    }
   }
 }

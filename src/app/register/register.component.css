@@ -8,6 +8,13 @@
 
 /* Contenedor principal */
 
+/* Estilo del mensaje de error */
+.error-message {
+  color: #d9534f;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 
 /* Tarjeta de login */
 .login-card {
