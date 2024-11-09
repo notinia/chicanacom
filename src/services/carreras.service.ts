@@ -84,7 +84,7 @@ export class CarrerasService {
             map(carreras => {
                 const ahora = new Date();
                 return carreras.filter(carrera => {
-                    const fechaCarrera = new Date(`${carrera.date}T${carrera.time || '00:00:00'}`);
+                    const fechaCarrera = new Date(`${carrera.date}T${carrera.time || '00:00'}`);
                     return fechaCarrera > ahora;
                 });
             })
@@ -96,13 +96,13 @@ export class CarrerasService {
         const ahora = new Date();
 
         return carreras.reduce((proxima, carrera) => {
-            const fechaCarrera = new Date(`${carrera.date}T${carrera.time || '00:00:00'}`);
+            const fechaCarrera = new Date(`${carrera.date}T${carrera.time || '00:00'}`);
 
             if (fechaCarrera < ahora) {
                 return proxima;
             }
 
-            if (!proxima || fechaCarrera < new Date(`${proxima.date}T${proxima.time || '00:00:00'}`)) {
+            if (!proxima || fechaCarrera < new Date(`${proxima.date}T${proxima.time || '00:00'}`)) {
                 return carrera;
             }
 
@@ -113,7 +113,7 @@ export class CarrerasService {
 
     // Obtener fecha y hora local de una carrera
     getFechaHoraLocal(carrera: Carrera): { fecha: Date; horario: string } {
-        const fechaUTC = new Date(`${carrera.date}T${carrera.time || '00:00:00'}`);
+        const fechaUTC = new Date(`${carrera.date}T${carrera.time || '00:00'}`);
         const fechaLocal = new Date(fechaUTC);
         const horario = fechaLocal.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 

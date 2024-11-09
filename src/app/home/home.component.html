@@ -41,9 +41,9 @@
                         </td>
                     </tr>
                     <!-- En un esquema normal, esta fila sería Práctica. Hacer que muestre solo la P actual e intercambiar? o hacer dos filas más para P2 y P3? -->
-                    <tr >
-                        
-                        <td id="diaSesion" class="session-time" *ngIf=""> {{ proximaCarrera?.FirstPractice?.time }} </td>
+                    <tr>
+                        <td id="diaSesion" class="session-time"> {{ weekday[sesionesProximaCarrera[0].fecha.getDay()] }}
+                        </td>
                         <td id="GP" class="session-type"> </td>
                         <td id="info" class="session-info">
                             <a href="http://localhost:4200/masInfo">
@@ -52,8 +52,6 @@
                                 </div>
                             </a>
                         </td>
-                        
-                        
 
 
                     </tr>
@@ -93,7 +91,7 @@
                         <td class="session-info"></td>
                     </tr>
                     <tr class="tituloin">
-                    
+
                         <td colspan="3">
                             <a href="gpActualURL">
                                 GRAN PREMIO

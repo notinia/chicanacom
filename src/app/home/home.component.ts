@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CarrerasService, Carrera } from '../../services/carreras.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { combineLatest } from 'rxjs';
+import { catchError, combineLatest, Observable, Subject, switchMap, tap, throwError } from 'rxjs';
 
 /*
 Los observables emiten y si hay alguien suscripto se le avisa y se le pasa un valor. En este caso no va a suceder porque son observables "fríos" que emiten una sola vez (todas las llamadas a APIs restful son así), pero si tenés un observable que persiste luego de emitir una vez se puede triggerear de nuevo ese flow
@@ -32,8 +32,11 @@ export class HomeComponent {
   proximaCarrera: Carrera | undefined;
   sesionesProximaCarrera: Array<{
     fecha: Date;
+    tiempo: String;
     tipo: string;
   }>;
+  private datosCargados$ = new Subject<void>();
+  weekday = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
 
   constructor(
     private carreraService: CarrerasService
@@ -42,17 +45,28 @@ export class HomeComponent {
     this.carrerassprint = [];
     this.proximaCarrera = undefined;
     this.sesionesProximaCarrera = [];
-
+    // Llama a cargarDatos y suscríbete al evento de datos cargados para ordenar las sesiones
+    /*
     this.cargarDatos();
-    console.log("carrera: ", this.proximaCarrera);
     this.ordenarSesiones();
-    console.log('Sesiones:', this.sesionesProximaCarrera);
+    */
+    //se añadio un observable para triggerear la func ordenar sesiones cuando la data este cargada.
+    this.datosCargados$
+      .pipe(
+        // First trigger cargarDatos
+        switchMap(() => this.cargarDatos()),
+        // Once cargarDatos completes, run ordenarSesiones
+        tap(() => this.ordenarSesiones())
+      )
+      .subscribe();
+    this.datosCargados$.next();
   }
 
   ngOnInit(): void {
   }
 
-  private cargarDatos() {
+  /* V1 FUNCA PIOLA
+  private cargarDatos(){
     combineLatest({
       carreras: this.carreraService.getCarreras(),
       proximaCarrera: this.carreraService.getProximaCarrera(),
@@ -66,6 +80,7 @@ export class HomeComponent {
           this.carreraService.getFechaHoraLocal(this.proximaCarrera);
         }
         this.carrerassprint = carreraSprint;
+
       },
       error: (error) => {
         // Manejo de errores
@@ -73,11 +88,32 @@ export class HomeComponent {
       }
     })
   }
+    */
+
+  private cargarDatos() {
+    return combineLatest({
+      carreras: this.carreraService.getCarreras(),
+      proximaCarrera: this.carreraService.getProximaCarrera(),
+      carreraSprint: this.carreraService.getCarrerasSprint()
+    }).pipe(
+      tap(({ carreras, proximaCarrera, carreraSprint }) => {
+        this.carreras = carreras;
+        this.proximaCarrera = proximaCarrera;
+        if (this.proximaCarrera) {
+          this.carreraService.getFechaHoraLocal(this.proximaCarrera);
+        }
+        this.carrerassprint = carreraSprint;
+      }),
+      catchError(error => {
+        console.log('Error loading data:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 
   private ordenarSesiones() {
 
-    console.log("Proxima carrera: ", this.proximaCarrera);
-
+    console.log(this.proximaCarrera);
     if (!this.proximaCarrera) return;
 
     this.sesionesProximaCarrera.length = 0;
@@ -90,7 +126,8 @@ export class HomeComponent {
     if (this.proximaCarrera.FirstPractice?.time) {
       console.log('Adding FP1');
       this.sesionesProximaCarrera.push({
-        fecha: new Date(`${this.proximaCarrera.FirstPractice.date}T${this.proximaCarrera.FirstPractice.time}`),
+        fecha: new Date(`${this.proximaCarrera.FirstPractice.date}`),
+        tiempo: new String(`${this.proximaCarrera.FirstPractice.time}`),
         tipo: 'Práctica 1'
       });
     }
@@ -100,6 +137,7 @@ export class HomeComponent {
       console.log('Adding FP2');
       this.sesionesProximaCarrera.push({
         fecha: new Date(`${this.proximaCarrera.SecondPractice.date}T${this.proximaCarrera.SecondPractice.time}`),
+        tiempo: new String(`${this.proximaCarrera.SecondPractice.time}`),
         tipo: 'Práctica 2'
       });
     }
@@ -109,6 +147,7 @@ export class HomeComponent {
       console.log('Adding FP3');
       this.sesionesProximaCarrera.push({
         fecha: new Date(`${this.proximaCarrera.ThirdPractice.date}T${this.proximaCarrera.ThirdPractice.time}`),
+        tiempo: new String(`${this.proximaCarrera.ThirdPractice.time}`),
         tipo: 'Práctica 3'
       });
     }
@@ -118,6 +157,7 @@ export class HomeComponent {
       console.log('Adding Sprint');
       this.sesionesProximaCarrera.push({
         fecha: new Date(`${this.proximaCarrera.sprint.date}T${this.proximaCarrera.sprint.time}`),
+        tiempo: new String(`${this.proximaCarrera.sprint.time}`),
         tipo: 'Sprint'
       });
     }
@@ -127,6 +167,7 @@ export class HomeComponent {
       console.log('Adding Qualifying');
       this.sesionesProximaCarrera.push({
         fecha: new Date(`${this.proximaCarrera.Qualifying.date}T${this.proximaCarrera.Qualifying.time}`),
+        tiempo: new String(`${this.proximaCarrera.Qualifying.time}`),
         tipo: 'Clasificación'
       });
     }
@@ -136,6 +177,7 @@ export class HomeComponent {
       console.log('Adding Race');
       this.sesionesProximaCarrera.push({
         fecha: new Date(`${this.proximaCarrera.date}T${this.proximaCarrera.time}`),
+        tiempo: new String(`${this.proximaCarrera.time}`),
         tipo: 'Carrera'
       });
     }
