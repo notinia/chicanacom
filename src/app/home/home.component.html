@@ -1,7 +1,7 @@
 <div id="mainHome">
     <div id="carreras">
         <div id="manejaGP">
-            <a href="FechaAnteriorURL">
+            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === anteriorIndex" (click)="cambiarCarrera('anterior')">
                 <div id="bAnt" style="display: flex; flex-direction: row; width: 80px; justify-content: center; height: 100%;">
                     <mat-icon>keyboard_arrow_left</mat-icon>
                     <br>
@@ -9,15 +9,15 @@
                 </div>
             </a>
             <div id="titulo">
-                GP: <br>
-                <span *ngIf=" proximaCarrera?.raceName; else loadingText">
+                GP<br>
+                <span *ngIf="proximaCarrera?.raceName; else loadingText">
                     {{ proximaCarrera.raceName }}
                 </span>
                 <ng-template #loadingText>
                     Cargando...
                 </ng-template>
             </div>
-            <a href="FechaSiguienteURL">
+            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === siguienteIndex" (click)="cambiarCarrera('siguiente')">
                 <div id="bSig" style="display: flex; flex-direction: row; width: 80px; justify-content: center;">
                     Sig.
                     <mat-icon>keyboard_arrow_right</mat-icon>
@@ -36,7 +36,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Declaración del *ngFor -->
                     <ng-container *ngFor="let sesion of sesionesProximaCarrera; let i = index">
                         <tr>
                             <td class="session-time">
@@ -50,7 +49,6 @@
                                 </button>
                             </td>
                         </tr>
-                        <!-- Uso del ngIf dentro del mismo contexto -->
                         <tr *ngIf="sesion.mostrarDetalles">
                             <td colspan="3">
                                 <div class="detalles-sesion">
