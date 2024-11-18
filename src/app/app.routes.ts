@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { CarrerasComponent } from './carreras/carreras.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { CampeonatoConductoresComponent } from './campeonato-conductores/campeonato-conductores.component';
 import { AuthGuard } from './auth.guard';
 import { LoginGuard } from './login.guard';
 export const routes: Routes = [
@@ -15,6 +16,11 @@ export const routes: Routes = [
     loadComponent: () => import('./conductores/conductores.component').then(m => m.ConductoresComponent),
     canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
   },
+  {
+    path: 'campeonatoConductores',
+    component: CampeonatoConductoresComponent,
+    canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
+  },
   {
     path: 'carreras',
     component: CarrerasComponent,

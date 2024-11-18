@@ -10,6 +10,13 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
+h2 {
+  display: flex;
+  justify-content: center;
+  background-color: #009879;
+  box-decoration-break: slice;
+}
+
 .styled-table thead tr {
   background-color: #009879;
   color: #ffffff;

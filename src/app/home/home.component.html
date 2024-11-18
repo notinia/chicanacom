@@ -9,7 +9,7 @@
                 </div>
             </a>
             <div id="titulo">
-                GP: <br>
+                <br>
                 <span *ngIf=" proximaCarrera?.raceName; else loadingText">
                     {{ proximaCarrera.raceName }}
                 </span>
@@ -54,7 +54,7 @@
                         <tr *ngIf="sesion.mostrarDetalles">
                             <td colspan="3">
                                 <div class="detalles-sesion">
-                                    <p><strong>Fecha:</strong> {{ sesion.fecha | date: 'fullDate' }}</p>
+                                    <p><strong>Fecha:</strong> {{ sesion.fecha | date: 'shortDate' }}</p>
                                     <p><strong>Hora:</strong> {{ sesion.fecha | date: 'shortTime' }}</p>
                                     <p><strong>Descripción:</strong> Información adicional sobre {{ sesion.tipo }}</p>
                                 </div>

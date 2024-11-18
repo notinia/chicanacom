@@ -24,11 +24,13 @@ export class HomeComponent {
       mostrarDetalles: boolean;
     }> = [];
   private datosCargados$ = new Subject<void>();
+
   isLive(fecha: Date): string {
     const ahora = new Date();
     const diferenciaHoras = (fecha.getTime() - ahora.getTime()) / (1000 * 60 * 60); // Diferencia en horas
     return diferenciaHoras <= 2 && diferenciaHoras >= 0 ? 'en vivo' : fecha.toLocaleTimeString(); // Mostrar hora o "en vivo"
   }
+  
   weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
   constructor(private carreraService: CarrerasService) {

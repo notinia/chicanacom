@@ -3,18 +3,20 @@
 <table class="styled-table">
   <thead>
     <tr>
-      <th>Foto</th>
-      <th>Nombre</th>
+      <th>Posicion</th>
+      <th>Conductor</th>
       <th>Equipo</th>
-      <th>País</th>
+      <th>Puntos</th>
+      <th>Victorias</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let conductor of conductoresPaginados">
-      <td><img [src]="conductor.headshot_url" alt="no-picture" width="50"></td>
-      <td>{{ conductor.full_name }}</td>
-      <td>{{ conductor.team_name }}</td>
-      <td>{{ conductor.country_code }}</td>
+    <tr *ngFor="let standing of standings">
+      <td>{{ standing.position }}</td>
+      <td>{{ standing.Driver.familyName + standing.Driver.givenName }}</td>
+      <td>{{ standing.Constructors.name }}</td>
+      <td>{{ standing.points }}</td>
+      <td>{{ standing.wins }}</td>
     </tr>
   </tbody>
 </table>
