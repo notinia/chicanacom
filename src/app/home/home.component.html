@@ -1,13 +1,16 @@
 <div id="mainHome">
     <div id="carreras">
         <div id="manejaGP">
-            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === anteriorIndex" (click)="cambiarCarrera('anterior')">
+            <!-- Botón para carrera anterior -->
+            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === 0" (click)="cambiarCarrera('anterior')">
                 <div id="bAnt" style="display: flex; flex-direction: row; width: 80px; justify-content: center; height: 100%;">
                     <mat-icon>keyboard_arrow_left</mat-icon>
                     <br>
                     Ant.
                 </div>
             </a>
+            
+            <!-- Título de la carrera actual -->
             <div id="titulo">
                 GP<br>
                 <span *ngIf="proximaCarrera?.raceName; else loadingText">
@@ -17,7 +20,9 @@
                     Cargando...
                 </ng-template>
             </div>
-            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === siguienteIndex" (click)="cambiarCarrera('siguiente')">
+            
+            <!-- Botón para carrera siguiente -->
+            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === carreras.length - 1" (click)="cambiarCarrera('siguiente')">
                 <div id="bSig" style="display: flex; flex-direction: row; width: 80px; justify-content: center;">
                     Sig.
                     <mat-icon>keyboard_arrow_right</mat-icon>
@@ -26,6 +31,7 @@
             </a>
         </div>
 
+        <!-- Tabla de sesiones de la carrera actual -->
         <div id="tablaCarreras">
             <table [cellSpacing]="0">
                 <thead>
@@ -36,6 +42,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Iteración sobre las sesiones -->
                     <ng-container *ngFor="let sesion of sesionesProximaCarrera; let i = index">
                         <tr>
                             <td class="session-time">
@@ -49,6 +56,7 @@
                                 </button>
                             </td>
                         </tr>
+                        <!-- Fila expandible con detalles -->
                         <tr *ngIf="sesion.mostrarDetalles">
                             <td colspan="3">
                                 <div class="detalles-sesion">

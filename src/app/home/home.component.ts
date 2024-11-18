@@ -13,10 +13,8 @@ import { NgFor, NgIf } from '@angular/common';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  carreras: Carrera[] = []; // Todas las carreras
-  carreraActualIndex: number = 0; // Índice de la carrera actual (la más cercana)
-  anteriorIndex: number = 0; // Índice de la carrera anterior
-  siguienteIndex: number = 0; // Índice de la carrera siguiente
+  carreras: Carrera[] = []; // Tres carreras: anterior, actual, siguiente
+  carreraActualIndex: number = 1; // La actual siempre está en el índice 1
   proximaCarrera: Carrera | undefined; // Carrera actualmente mostrada
   sesionesProximaCarrera: Array<{
     fecha: Date;
@@ -30,42 +28,13 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.carreraService.getCarrerasLimitadas().subscribe({
-        next: (data: Carrera[]) => {
-            this.carreras = data;
-            this.carreraActualIndex = 1; // La actual siempre estará en el índice 1
-            this.actualizarCarreraActual();
-            this.actualizarSesiones();
-        },
-        error: (err) => console.error('Error al cargar carreras:', err),
-    });
-}
-
-  cargarDatos(): void {
-    this.carreraService.getCarreras().subscribe({
       next: (data: Carrera[]) => {
         this.carreras = data;
-        this.definirCarreraActual();
-        this.actualizarIndices();
         this.actualizarCarreraActual();
         this.actualizarSesiones();
       },
       error: (err) => console.error('Error al cargar carreras:', err),
     });
-  }
-
-  definirCarreraActual(): void {
-    const ahora = new Date();
-    this.carreraActualIndex = this.carreras.findIndex(
-      (carrera) => new Date(carrera.date).getTime() > ahora.getTime()
-    );
-    if (this.carreraActualIndex === -1) {
-      this.carreraActualIndex = this.carreras.length - 1; // Última carrera si todas ya pasaron
-    }
-  }
-
-  actualizarIndices(): void {
-    this.anteriorIndex = Math.max(this.carreraActualIndex - 1, 0);
-    this.siguienteIndex = Math.min(this.carreraActualIndex + 1, this.carreras.length - 1);
   }
 
   actualizarCarreraActual(): void {
@@ -119,12 +88,11 @@ export class HomeComponent {
   }
 
   cambiarCarrera(direccion: 'anterior' | 'siguiente'): void {
-    if (direccion === 'anterior') {
-      this.carreraActualIndex = this.anteriorIndex;
-    } else if (direccion === 'siguiente') {
-      this.carreraActualIndex = this.siguienteIndex;
+    if (direccion === 'anterior' && this.carreraActualIndex > 0) {
+      this.carreraActualIndex--;
+    } else if (direccion === 'siguiente' && this.carreraActualIndex < this.carreras.length - 1) {
+      this.carreraActualIndex++;
     }
-    this.actualizarIndices();
     this.actualizarCarreraActual();
     this.actualizarSesiones();
   }
