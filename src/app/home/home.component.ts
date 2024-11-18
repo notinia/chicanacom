@@ -56,10 +56,10 @@ export class HomeComponent {
         // First trigger cargarDatos
         switchMap(() => this.cargarDatos()),
         // Once cargarDatos completes, run ordenarSesiones
-        tap(() => this.ordenarSesiones())
-      )
-      .subscribe();
-    this.datosCargados$.next();
+        tap(() => {
+		this.ordenarSesiones());
+	this.datosCargados$.next();
+	}).subscribe();
   }
 
   ngOnInit(): void {
