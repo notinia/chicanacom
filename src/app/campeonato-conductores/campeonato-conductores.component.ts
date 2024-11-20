@@ -1,32 +1,27 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { map, Observable, Subject, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, map, Observable, Subject, switchMap, tap, throwError } from 'rxjs';
 import { NgFor, NgIf } from '@angular/common';
-
-export interface Constructor {
-  url: string;
-  name: string;
-}
-
-export interface Driver {
-  givenName: string;
-  familyName: string;
-}
 
 export interface Standing {
   position: string;
-  constructor: string;
   points: string;
   wins: string;
-  Driver: Driver;
-  Constructors: Constructor;
+  Driver: {
+    givenName: string;
+    familyName: string;
+  };
+  Constructors: {
+    name: string;
+    url: string;
+  }[];
 }
 
 export interface F1Response {
   MRData: {
     StandingsTable: {
       season: string;
-      StandingLists: {
+      StandingsLists: {
         round: string;
         DriverStandings: Standing[];
       };
@@ -55,54 +50,47 @@ export class CampeonatoConductoresComponent {
   constructor(private http: HttpClient) {
     this.standings = [];
     this.conductoresPaginados = [];
-
-    this.getStandings().subscribe(data => {
-      this.standings = data;
-      //this.calcularTotalPaginas();  // Calcular el total de páginas
-      //this.setPage(this.currentPage);  // Establecer la página inicial
-    });
-    console.log("hola");
-    console.log(this.standings[0].points);
-
+    this.datosCargados$
+    .pipe(
+      // First trigger cargarDatos
+      switchMap(() => this.cargarStandings())
+    )
+    .subscribe();
+    this.datosCargados$.next(); 
+    console.log(this.standings);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   // Método para obtener los datos de la API
   getStandings(): Observable<Standing[]> {
     return this.http.get<F1Response>(this.API_URL).pipe(
-      map(response => response.MRData.StandingsTable.StandingLists.DriverStandings)
+      map((response) => response.MRData.StandingsTable.StandingsLists[0].DriverStandings)
     );
   }
 
-  // Calcular el total de páginas basado en la cantidad de conductores únicos
-  calcularTotalPaginas() {
-    this.totalPages = Math.ceil(this.standings.length / this.pageSize);  // Redondear al número entero superior
+/*
+  getStandings(): Observable<Standing[]> {
+    return this.http.get<F1Response>(this.API_URL).pipe(
+      map((response) => {
+        //console.log('Full API Response:', response); // Log full response for debugging
+        return response.MRData.StandingsTable.StandingsLists[0].DriverStandings;
+      })
+    );
+  }
+*/
+  private cargarStandings() {
+    return combineLatest({
+      standings: this.getStandings()
+    }).pipe(
+      tap(({ standings }) => {
+        this.standings = standings;
+      }),
+      catchError(error => {
+        console.log('Error loading data:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
-  // Cambiar la página actual
-  setPage(page: number) {
-    if (page < 1 || page > this.totalPages) {
-      return;  // Evitar avanzar a páginas fuera del rango
-    }
-    const startIndex = (page - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.conductoresPaginados = this.standings.slice(startIndex, endIndex);
-    this.currentPage = page;  // Actualizar la página actual
-  }
-
-  // Método para ir a la página anterior
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.setPage(this.currentPage - 1);
-    }
-  }
-
-  // Método para ir a la página siguiente
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.setPage(this.currentPage + 1);
-    }
-  }
 }

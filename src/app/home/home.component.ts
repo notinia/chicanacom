@@ -17,33 +17,15 @@ export class HomeComponent {
   carreraActualIndex: number = 1; // La actual siempre está en el índice 1
   proximaCarrera: Carrera | undefined; // Carrera actualmente mostrada
   sesionesProximaCarrera: Array<{
-<<<<<<< HEAD
-      fecha: Date;
-      tiempo: string;
-      tipo: string;
-      mostrarDetalles: boolean;
-    }> = [];
-  private datosCargados$ = new Subject<void>();
-
-  isLive(fecha: Date): string {
-    const ahora = new Date();
-    const diferenciaHoras = (fecha.getTime() - ahora.getTime()) / (1000 * 60 * 60); // Diferencia en horas
-    return diferenciaHoras <= 2 && diferenciaHoras >= 0 ? 'en vivo' : fecha.toLocaleTimeString(); // Mostrar hora o "en vivo"
-  }
-  
-=======
     fecha: Date;
     tiempo: string;
     tipo: string;
     mostrarDetalles: boolean;
   }> = [];
->>>>>>> 0180e767bedff04a390d6c4438a18311b1531cd4
   weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-  constructor(private carreraService: CarrerasService) {}
-
-  ngOnInit(): void {
-    this.carreraService.getCarrerasLimitadas().subscribe({
+  constructor(private carreraService: CarrerasService) {
+    this.carreraService.getCarreras().subscribe({
       next: (data: Carrera[]) => {
         this.carreras = data;
         this.actualizarCarreraActual();
@@ -52,6 +34,8 @@ export class HomeComponent {
       error: (err) => console.error('Error al cargar carreras:', err),
     });
   }
+
+  ngOnInit(): void { }
 
   actualizarCarreraActual(): void {
     this.proximaCarrera = this.carreras[this.carreraActualIndex];

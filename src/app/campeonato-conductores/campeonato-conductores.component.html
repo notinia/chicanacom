@@ -1,4 +1,4 @@
-<h2>Lista de Conductores</h2>
+<h2>Campeonato de conductores</h2>
 
 <table class="styled-table">
   <thead>
@@ -6,24 +6,23 @@
       <th>Posicion</th>
       <th>Conductor</th>
       <th>Equipo</th>
-      <th>Puntos</th>
       <th>Victorias</th>
+      <th>Puntos</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let standing of standings">
       <td>{{ standing.position }}</td>
-      <td>{{ standing.Driver.familyName + standing.Driver.givenName }}</td>
-      <td>{{ standing.Constructors.name }}</td>
-      <td>{{ standing.points }}</td>
+      <td>{{ standing.Driver.givenName + " " + standing.Driver.familyName }}</td>
+      <td>
+        <a href="{{ standing.Constructors[0].url }}">
+          {{ standing.Constructors[0].name }}
+        </a>
+      </td>
       <td>{{ standing.wins }}</td>
+      <td>{{ standing.points }}</td>
     </tr>
   </tbody>
 </table>
 
-<!-- Botones de paginación -->
-<div class="pagination">
-  <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
-  <span>Página {{ currentPage }} de {{ totalPages }}</span>
-  <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Siguiente</button>
-</div>
+
