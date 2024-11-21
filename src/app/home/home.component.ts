@@ -4,6 +4,12 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { CarrerasService, Carrera } from '../../services/carreras.service';
 import { NgFor, NgIf } from '@angular/common';
 
+export interface Circuit {
+  circuitID: string;
+  url: string;
+  circuitName: string;
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -12,6 +18,7 @@ import { NgFor, NgIf } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent {
   carreras: Carrera[] = []; // Tres carreras: anterior, actual, siguiente
   carreraActualIndex: number = 1; // La actual siempre está en el índice 1
@@ -21,8 +28,11 @@ export class HomeComponent {
     tiempo: string;
     tipo: string;
     mostrarDetalles: boolean;
+    circuito: Circuit;
   }> = [];
+
   weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
 
   constructor(private carreraService: CarrerasService) {
     this.carreraService.getCarreras().subscribe({
@@ -50,6 +60,7 @@ export class HomeComponent {
           tiempo: this.proximaCarrera.FirstPractice.time,
           tipo: 'Práctica 1',
           mostrarDetalles: false,
+          circuito: this.proximaCarrera.Circuit,
         });
       }
       if (this.proximaCarrera.SecondPractice?.time) {
@@ -58,6 +69,7 @@ export class HomeComponent {
           tiempo: this.proximaCarrera.SecondPractice.time,
           tipo: 'Práctica 2',
           mostrarDetalles: false,
+          circuito: this.proximaCarrera.Circuit,
         });
       }
       if (this.proximaCarrera.ThirdPractice?.time) {
@@ -66,6 +78,7 @@ export class HomeComponent {
           tiempo: this.proximaCarrera.ThirdPractice.time,
           tipo: 'Práctica 3',
           mostrarDetalles: false,
+          circuito: this.proximaCarrera.Circuit,
         });
       }
       if (this.proximaCarrera.Qualifying?.time) {
@@ -74,6 +87,7 @@ export class HomeComponent {
           tiempo: this.proximaCarrera.Qualifying.time,
           tipo: 'Clasificación',
           mostrarDetalles: false,
+          circuito: this.proximaCarrera.Circuit,
         });
       }
       if (this.proximaCarrera.time) {
@@ -82,6 +96,7 @@ export class HomeComponent {
           tiempo: this.proximaCarrera.time,
           tipo: 'Carrera',
           mostrarDetalles: false,
+          circuito: this.proximaCarrera.Circuit,
         });
       }
     }

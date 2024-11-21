@@ -2,14 +2,16 @@
     <div id="carreras">
         <div id="manejaGP">
             <!-- Botón para carrera anterior -->
-            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === 0" (click)="cambiarCarrera('anterior')">
-                <div id="bAnt" style="display: flex; flex-direction: row; width: 80px; justify-content: center; height: 100%;">
+            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === 0"
+                (click)="cambiarCarrera('anterior')">
+                <div id="bAnt"
+                    style="display: flex; flex-direction: row; width: 80px; justify-content: center; height: 100%;">
                     <mat-icon>keyboard_arrow_left</mat-icon>
                     <br>
                     Ant.
                 </div>
             </a>
-            
+
             <!-- Título de la carrera actual -->
             <div id="titulo">
                 <br>
@@ -20,9 +22,10 @@
                     Cargando...
                 </ng-template>
             </div>
-            
+
             <!-- Botón para carrera siguiente -->
-            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === carreras.length - 1" (click)="cambiarCarrera('siguiente')">
+            <a href="javascript:void(0)" [class.disabled]="carreraActualIndex === carreras.length - 1"
+                (click)="cambiarCarrera('siguiente')">
                 <div id="bSig" style="display: flex; flex-direction: row; width: 80px; justify-content: center;">
                     Sig.
                     <mat-icon>keyboard_arrow_right</mat-icon>
@@ -46,10 +49,15 @@
                     <ng-container *ngFor="let sesion of sesionesProximaCarrera; let i = index">
                         <tr>
                             <td class="session-time">
-                                {{ weekday[sesion.fecha.getDay()] }} 
-                                {{ isLive(sesion.fecha) }}
+                                {{ weekday[sesion.fecha.getDay()] }}
+                                <br>
+                                {{ sesion.fecha | date: 'shortTime' }}
+
                             </td>
-                            <td class="session-type">{{ sesion.tipo }}</td>
+                            <td class="session-type"
+                                [style.font-weight]="sesion.tipo === 'Carrera' ? 'bold' : 'normal'">
+                                {{ sesion.tipo }}
+                            </td>
                             <td class="session-info">
                                 <button (click)="toggleDetalles(i)">
                                     <mat-icon>{{ sesion.mostrarDetalles ? 'expand_less' : 'expand_more' }}</mat-icon>
@@ -62,7 +70,16 @@
                                 <div class="detalles-sesion">
                                     <p><strong>Fecha:</strong> {{ sesion.fecha | date: 'shortDate' }}</p>
                                     <p><strong>Hora:</strong> {{ sesion.fecha | date: 'shortTime' }}</p>
-                                    <p><strong>Descripción:</strong> Información adicional sobre {{ sesion.tipo }}</p>
+                                    <p>
+                                        <strong>Descripción:</strong> Información adicional sobre {{ sesion.tipo }}
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            Circuito:
+                                            <a href=" {{ sesion.circuito.url }} "> {{ sesion.circuito.circuitName }}
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </td>
                         </tr>

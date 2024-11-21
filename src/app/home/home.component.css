@@ -67,7 +67,8 @@
 
 #tablaCarreras a {
     color: white;
-    text-decoration: none;
+    text-decoration: underline;
+    background-color: rgb(202, 20, 20);;
 }
 
 .tituloin {
