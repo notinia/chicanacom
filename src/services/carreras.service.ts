@@ -107,18 +107,5 @@ export class CarrerasService {
 
             return proxima;
         }, null as Carrera | null) || carreras[0];
-    }
-
-
-    // Obtener fecha y hora local de una carrera
-    getFechaHoraLocal(carrera: Carrera): { fecha: Date; horario: string } {
-        const fechaUTC = new Date(`${carrera.date}T${carrera.time || '00:00'}`);
-        const fechaLocal = new Date(fechaUTC);
-        const horario = fechaLocal.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        return {
-            fecha: fechaLocal,
-            horario: horario
-        };
-    }
+    }  
 }
