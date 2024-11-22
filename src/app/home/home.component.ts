@@ -26,7 +26,6 @@ const sessionTypes = [
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-
 export class HomeComponent {
   carreras: Carrera[] = []; // Tres carreras: anterior, actual, siguiente
   carreraActualIndex: number = 1; // La actual siempre está en el índice 1
@@ -39,12 +38,14 @@ export class HomeComponent {
     circuito: Circuit;
   }> = [];
 
-  //Como la API no ofrece duración, estimando aproximadamente 1 hora por cada sesión.
+  mostrarMasIndex: number | null = null; // Controlar qué fila está expandida
+
+  // Como la API no ofrece duración, estimando aproximadamente 1 hora por cada sesión.
   sessionDuration = 60;
 
   weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-  constructor(private carreraService: CarrerasService) { }
+  constructor(private carreraService: CarrerasService) {}
 
   ngOnInit(): void {
     this.carreraService.getCarrerasLimitadas().subscribe({
@@ -74,7 +75,7 @@ export class HomeComponent {
           const originalDate = new Date(`${sessionData.date}T${sessionData.time}`);
           originalDate.setDate(originalDate.getDate() + 1);
           this.sesionesProximaCarrera.push({
-            fecha: originalDate, // Use the adjusted date
+            fecha: originalDate,
             tiempo: session.key
               ? this.getHoraLocalFromUTC(sessionData.time)
               : sessionData.time,
@@ -87,7 +88,6 @@ export class HomeComponent {
     }
   }
 
-
   cambiarCarrera(direccion: 'anterior' | 'siguiente'): void {
     if (direccion === 'anterior' && this.carreraActualIndex > 0) {
       this.carreraActualIndex--;
@@ -99,7 +99,7 @@ export class HomeComponent {
   }
 
   toggleDetalles(index: number): void {
-    this.sesionesProximaCarrera[index].mostrarDetalles = !this.sesionesProximaCarrera[index].mostrarDetalles;
+    this.mostrarMasIndex = this.mostrarMasIndex === index ? null : index; // Abrir o cerrar detalles
   }
 
   getHoraLocalFromUTC(utcTime: string): string {
@@ -121,7 +121,6 @@ export class HomeComponent {
       return fecha.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase(); // Antes de la fecha
     }
   }
-
 
   isEnded(fecha: Date, tiempo: string, duration: number): boolean {
     const now = new Date();
