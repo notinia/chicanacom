@@ -44,9 +44,12 @@ export class HomeComponent {
 
   weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-  constructor(private carreraService: CarrerasService) {
-    this.carreraService.getCarreras().subscribe({
+  constructor(private carreraService: CarrerasService) {}
+
+  ngOnInit(): void {
+    this.carreraService.getCarrerasLimitadas().subscribe({
       next: (data: Carrera[]) => {
+        console.log('Carreras limitadas:', data); // Log para verificar las carreras
         this.carreras = data;
         this.actualizarCarreraActual();
         this.actualizarSesiones();
@@ -54,8 +57,6 @@ export class HomeComponent {
       error: (err) => console.error('Error al cargar carreras:', err),
     });
   }
-
-  ngOnInit(): void { }
 
   actualizarCarreraActual(): void {
     this.proximaCarrera = this.carreras[this.carreraActualIndex];
@@ -104,13 +105,17 @@ export class HomeComponent {
     return fechaLocal.toISOString().substring(11, 16);
   }
 
-  isLive(fecha: Date, tiempo: string, duration: number): boolean {
-    const now = new Date();
-    const [hours, minutes] = tiempo.split(':').map(Number);
-    const startTime = new Date(fecha);
-    startTime.setHours(hours, minutes, 0);
-    const endTime = new Date(startTime.getTime() + duration * 60000);
-    return now >= startTime && now < endTime;
+  isLive(fecha: Date): string {
+    const ahora = new Date(); // Hora actual
+    const diferenciaHoras = (fecha.getTime() - ahora.getTime()) / (1000 * 60 * 60); // Diferencia en horas
+  
+    if (diferenciaHoras >= 0 && diferenciaHoras <= 2) {
+      return 'en vivo'; // Dentro del rango de 2 horas
+    } else if (diferenciaHoras < 0) {
+      return 'finalizada'; // Más de 2 horas después
+    } else {
+      return fecha.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }); // Antes de la fecha
+    }
   }
 
   isEnded(fecha: Date, tiempo: string, duration: number): boolean {
