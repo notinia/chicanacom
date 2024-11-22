@@ -1,16 +1,19 @@
 {
   "hosting": {
-    "public": "dist/chicanacom/browser", 
+    "public": "dist/chicanacom/browser",
     "ignore": [
       "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+      "*/.",
+      "*/node_modules/*"
     ],
-    "rewrites": [
+    "redirects": [
       {
         "source": "/",
-        "destination": "/home"
-      },
+        "destination": "/home",
+        "type": 302
+      }
+    ],
+    "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"

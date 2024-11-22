@@ -57,12 +57,12 @@
                             </td>
                             <td class="session-info">
                                 <button (click)="toggleDetalles(i)">
-                                    <mat-icon>{{ sesion.mostrarDetalles ? 'expand_less' : 'expand_more' }}</mat-icon>
+                                    <mat-icon>{{ mostrarMasIndex === i ? 'expand_less' : 'expand_more' }}</mat-icon>
                                 </button>
                             </td>
                         </tr>
                         <!-- Fila expandible con detalles -->
-                        <tr *ngIf="sesion.mostrarDetalles">
+                        <tr *ngIf="mostrarMasIndex === i">
                             <td colspan="3">
                                 <div class="detalles-sesion">
                                     <p><strong>Fecha:</strong> {{ sesion.fecha | date: 'shortDate' }}</p>
@@ -73,8 +73,7 @@
                                     <ul>
                                         <li>
                                             Circuito:
-                                            <a href=" {{ sesion.circuito.url }} "> {{ sesion.circuito.circuitName }}
-                                            </a>
+                                            <a href="{{ sesion.circuito.url }}">{{ sesion.circuito.circuitName }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -84,6 +83,5 @@
                 </tbody>
             </table>
         </div>
-        
     </div>
 </div>
