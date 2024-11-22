@@ -111,15 +111,17 @@ export class HomeComponent {
 
   isLive(fecha: Date): string {
     const ahora = new Date(); // Hora actual
-    const diferenciaHoras = (fecha.getTime() - ahora.getTime()) / (1000 * 60 * 60); // Diferencia en horas
-    if (diferenciaHoras >= 0 && diferenciaHoras <= 1) {
-      return 'En vivo!'; // Dentro del rango de 1 hora
-    } else if (diferenciaHoras < 0) {
+    const diferenciaMinutos = (fecha.getTime() - ahora.getTime()) / (1000 * 60); // Diferencia en minutos
+
+    if (diferenciaMinutos >= -59 && diferenciaMinutos <= 0) {
+      return 'En vivo!'; // Dentro del rango de 1 hora antes o durante
+    } else if (diferenciaMinutos < -60) {
       return 'Finalizada'; // Más de 1 hora después
     } else {
-      return fecha.toLocaleDateString('es-ES', { weekday: 'long' }); // Antes de la fecha
+      return fecha.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase(); // Antes de la fecha
     }
   }
+
 
   isEnded(fecha: Date, tiempo: string, duration: number): boolean {
     const now = new Date();
