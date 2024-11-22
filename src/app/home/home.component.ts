@@ -4,6 +4,20 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { CarrerasService, Carrera } from '../../services/carreras.service';
 import { NgFor, NgIf } from '@angular/common';
 
+export interface Circuit {
+  circuitID: string;
+  url: string;
+  circuitName: string;
+}
+
+const practiceTypes = [
+  { key: 'FirstPractice', label: 'Práctica 1' },
+  { key: 'SecondPractice', label: 'Práctica 2' },
+  { key: 'ThirdPractice', label: 'Práctica 3' },
+  { key: 'Qualifying', label: 'Clasificación' },
+  { key: '', label: 'Carrera' }
+];
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -12,6 +26,7 @@ import { NgFor, NgIf } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent {
   carreras: Carrera[] = []; // Tres carreras: anterior, actual, siguiente
   carreraActualIndex: number = 1; // La actual siempre está en el índice 1
@@ -21,15 +36,17 @@ export class HomeComponent {
     tiempo: string;
     tipo: string;
     mostrarDetalles: boolean;
+    circuito: Circuit;
   }> = [];
+
+  //Como la API no ofrece duración, estimando aproximadamente 1 hora por cada sesión.
+  sessionDuration = 60;
+
   weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-  constructor(private carreraService: CarrerasService) {}
-
-  ngOnInit(): void {
-    this.carreraService.getCarrerasLimitadas().subscribe({
+  constructor(private carreraService: CarrerasService) {
+    this.carreraService.getCarreras().subscribe({
       next: (data: Carrera[]) => {
-        console.log('Carreras limitadas:', data); // Log para verificar las carreras
         this.carreras = data;
         this.actualizarCarreraActual();
         this.actualizarSesiones();
@@ -38,6 +55,8 @@ export class HomeComponent {
     });
   }
 
+  ngOnInit(): void { }
+
   actualizarCarreraActual(): void {
     this.proximaCarrera = this.carreras[this.carreraActualIndex];
   }
@@ -45,45 +64,21 @@ export class HomeComponent {
   actualizarSesiones(): void {
     this.sesionesProximaCarrera = [];
     if (this.proximaCarrera) {
-      if (this.proximaCarrera.FirstPractice?.time) {
-        this.sesionesProximaCarrera.push({
-          fecha: new Date(`${this.proximaCarrera.FirstPractice.date}T${this.proximaCarrera.FirstPractice.time}`),
-          tiempo: this.proximaCarrera.FirstPractice.time,
-          tipo: 'Práctica 1',
-          mostrarDetalles: false,
-        });
-      }
-      if (this.proximaCarrera.SecondPractice?.time) {
-        this.sesionesProximaCarrera.push({
-          fecha: new Date(`${this.proximaCarrera.SecondPractice.date}T${this.proximaCarrera.SecondPractice.time}`),
-          tiempo: this.proximaCarrera.SecondPractice.time,
-          tipo: 'Práctica 2',
-          mostrarDetalles: false,
-        });
-      }
-      if (this.proximaCarrera.ThirdPractice?.time) {
-        this.sesionesProximaCarrera.push({
-          fecha: new Date(`${this.proximaCarrera.ThirdPractice.date}T${this.proximaCarrera.ThirdPractice.time}`),
-          tiempo: this.proximaCarrera.ThirdPractice.time,
-          tipo: 'Práctica 3',
-          mostrarDetalles: false,
-        });
-      }
-      if (this.proximaCarrera.Qualifying?.time) {
-        this.sesionesProximaCarrera.push({
-          fecha: new Date(`${this.proximaCarrera.Qualifying.date}T${this.proximaCarrera.Qualifying.time}`),
-          tiempo: this.proximaCarrera.Qualifying.time,
-          tipo: 'Clasificación',
-          mostrarDetalles: false,
-        });
-      }
-      if (this.proximaCarrera.time) {
-        this.sesionesProximaCarrera.push({
-          fecha: new Date(`${this.proximaCarrera.date}T${this.proximaCarrera.time}`),
-          tiempo: this.proximaCarrera.time,
-          tipo: 'Carrera',
-          mostrarDetalles: false,
-        });
+      for (const session of practiceTypes) {
+        const sessionData = session.key
+          ? this.proximaCarrera[session.key]
+          : this.proximaCarrera;
+        if (sessionData?.time) {
+          this.sesionesProximaCarrera.push({
+            fecha: new Date(`${sessionData.date}T${sessionData.time}`),
+            tiempo: session.key
+              ? this.getHoraLocalFromUTC(sessionData.time)
+              : sessionData.time,
+            tipo: session.label,
+            mostrarDetalles: false,
+            circuito: this.proximaCarrera.Circuit,
+          });
+        }
       }
     }
   }
@@ -102,17 +97,28 @@ export class HomeComponent {
     this.sesionesProximaCarrera[index].mostrarDetalles = !this.sesionesProximaCarrera[index].mostrarDetalles;
   }
 
-  isLive(fecha: Date): string {
-    const ahora = new Date(); // Hora actual
-    const diferenciaHoras = (fecha.getTime() - ahora.getTime()) / (1000 * 60 * 60); // Diferencia en horas
-  
-  if (diferenciaHoras >= 0 && diferenciaHoras <= 2) {
-      return 'en vivo'; // Dentro del rango de 2 horas
-    } else if (diferenciaHoras < 0) {
-      return 'finalizada'; // Más de 2 horas después
-    } else {
-      return fecha.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }); // Antes de la fecha
-    }
+  getHoraLocalFromUTC(utcTime: string): string {
+    const fechaUTC = new Date(`1970-01-01T${utcTime}`);
+    const utcOffset = -3;
+    const fechaLocal = new Date(fechaUTC.getTime() + utcOffset * 60 * 60 * 1000);
+    return fechaLocal.toISOString().substring(11, 16);
   }
-  
+
+  isLive(fecha: Date, tiempo: string, duration: number): boolean {
+    const now = new Date();
+    const [hours, minutes] = tiempo.split(':').map(Number);
+    const startTime = new Date(fecha);
+    startTime.setHours(hours, minutes, 0);
+    const endTime = new Date(startTime.getTime() + duration * 60000);
+    return now >= startTime && now < endTime;
+  }
+
+  isEnded(fecha: Date, tiempo: string, duration: number): boolean {
+    const now = new Date();
+    const [hours, minutes] = tiempo.split(':').map(Number);
+    const startTime = new Date(fecha);
+    startTime.setHours(hours, minutes, 0);  
+    const endTime = new Date(startTime.getTime() + duration * 60000); 
+    return now > endTime;
+  }
 }
