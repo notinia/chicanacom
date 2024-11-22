@@ -105,7 +105,6 @@ export class CarrerasService {
 
     private encontrarProximaCarrera(carreras: Carrera[]): Carrera {
         const ahora = new Date();
-
         return carreras.reduce((proxima, carrera) => {
             const fechaCarrera = new Date(`${carrera.date}T${carrera.time || '00:00'}`);
             if (fechaCarrera < ahora) {

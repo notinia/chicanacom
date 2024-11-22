@@ -10,7 +10,7 @@ export interface Circuit {
   circuitName: string;
 }
 
-const practiceTypes = [
+const sessionTypes = [
   { key: 'FirstPractice', label: 'Práctica 1' },
   { key: 'SecondPractice', label: 'Práctica 2' },
   { key: 'ThirdPractice', label: 'Práctica 3' },
@@ -44,7 +44,7 @@ export class HomeComponent {
 
   weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-  constructor(private carreraService: CarrerasService) {}
+  constructor(private carreraService: CarrerasService) { }
 
   ngOnInit(): void {
     this.carreraService.getCarrerasLimitadas().subscribe({
@@ -65,13 +65,16 @@ export class HomeComponent {
   actualizarSesiones(): void {
     this.sesionesProximaCarrera = [];
     if (this.proximaCarrera) {
-      for (const session of practiceTypes) {
+      for (const session of sessionTypes) {
         const sessionData = session.key
           ? this.proximaCarrera[session.key]
           : this.proximaCarrera;
         if (sessionData?.time) {
+          // Se añade un día por error de la API.
+          const originalDate = new Date(`${sessionData.date}T${sessionData.time}`);
+          originalDate.setDate(originalDate.getDate() + 1);
           this.sesionesProximaCarrera.push({
-            fecha: new Date(`${sessionData.date}T${sessionData.time}`),
+            fecha: originalDate, // Use the adjusted date
             tiempo: session.key
               ? this.getHoraLocalFromUTC(sessionData.time)
               : sessionData.time,
@@ -83,6 +86,7 @@ export class HomeComponent {
       }
     }
   }
+
 
   cambiarCarrera(direccion: 'anterior' | 'siguiente'): void {
     if (direccion === 'anterior' && this.carreraActualIndex > 0) {
@@ -108,12 +112,12 @@ export class HomeComponent {
   isLive(fecha: Date): string {
     const ahora = new Date(); // Hora actual
     const diferenciaHoras = (fecha.getTime() - ahora.getTime()) / (1000 * 60 * 60); // Diferencia en horas
-    if (diferenciaHoras >= 0 && diferenciaHoras <= 2) {
-      return 'en vivo'; // Dentro del rango de 2 horas
+    if (diferenciaHoras >= 0 && diferenciaHoras <= 1) {
+      return 'En vivo!'; // Dentro del rango de 1 hora
     } else if (diferenciaHoras < 0) {
-      return 'finalizada'; // Más de 2 horas después
+      return 'Finalizada'; // Más de 1 hora después
     } else {
-      return fecha.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }); // Antes de la fecha
+      return fecha.toLocaleDateString('es-ES', { weekday: 'long' }); // Antes de la fecha
     }
   }
 
@@ -121,8 +125,8 @@ export class HomeComponent {
     const now = new Date();
     const [hours, minutes] = tiempo.split(':').map(Number);
     const startTime = new Date(fecha);
-    startTime.setHours(hours, minutes, 0);  
-    const endTime = new Date(startTime.getTime() + duration * 60000); 
+    startTime.setHours(hours, minutes, 0);
+    const endTime = new Date(startTime.getTime() + duration * 60000);
     return now > endTime;
   }
 }
