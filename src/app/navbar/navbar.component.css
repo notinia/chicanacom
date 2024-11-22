@@ -1,6 +1,6 @@
 #accordian {
     background: rgb(202, 20, 20);
-    width: 150px;
+    width: 200px;
     color: #fff;
     margin: 0;
     padding: 0;
@@ -8,12 +8,19 @@
     text-shadow: 1px 1px 1px #000;
     float: left;
     overflow: auto;
+    border: 2px solid #000000;  
+    font-family: "Oswald",sans-serif;
+    letter-spacing: 1px ;
 }
 
 #accordian h3 {
-    font-size: 16px;
+    font-size: 17px;
+    font-family: "Oswald";
+    font-weight: bold; 
+    border: 2px solid black;
+    letter-spacing: 1px ;
     line-height: 125%;
-    background: darkgrey;
+    background: rgb(151, 150, 150);
     color: white;
     text-shadow: #000;
     margin-block-start: 0;
@@ -24,13 +31,15 @@
 
 #accordian h4 {
     box-shadow: inset 0 1px 0 0 black;
-    background: linear-gradient(to bottom, rgb(202, 20, 20) 5%, white 100%);
+    background: linear-gradient(to bottom, rgb(1, 0, 0) 3%, rgb(182, 144, 144) 100%);
     background-color: rgba(0, 0, 0, 0);
-    border: 1px solid black;
+    border: 1px solid rgb(162, 0, 0);
     display: block;
     cursor: pointer;
     color: #fff;
-    font-size: 15px;
+    font-size: 20px;
+    font-family:  "Bevan";
+    letter-spacing: 1px ;
     font-weight: 500;
     text-align: center;
     text-decoration: none;
@@ -41,11 +50,47 @@
     text-overflow: clip;
 }
 
+.botonch2{
+    display: flex;                   
+    align-items: center;            /* Centrar verticalmente el icono */
+    margin: 0 auto;
+    border:1px solid #000;
+    background: rgb(21, 21, 21);
+}
+.botonch2 img {
+    margin-right: 10px; /* Espacio entre la imagen y el texto */
+}
+
+.botonch2 span {
+    /*font-family:Arial, Helvetica, sans-serif;*/
+    font-family: "Assistant";
+    font-size: 15px; 
+    font-weight: bold;
+    letter-spacing: 1px ;
+}
+
+
+
+.material-icons {
+    margin-right: 10px;              /* Espacio entre  icono y  texto */
+}
+.link-icono {                       /*icono de home */
+    display: flex;                   
+    align-items: center;            /* Centrar verticalmente el icono */
+    text-align: left;               /* Alinear el texto a la izquierda */
+    padding: 10px;                  
+}
+
 li {
     display: flex;
     flex-direction: column;
     height: auto;
     align-content: center;
+}
+
+.items-l li a {
+    display: block;           /* Todo el ancho disponible */
+    text-align: center;       /* Centra solo el texto */
 }
 
 #accordian .items-menu li:nth-child(2n) {
@@ -55,6 +100,16 @@ li {
 #accordian .items-menu li:nth-child(2n+1) {
     background-color: #000;
 }
+.items-menu-equipos {
+    height: 200px;           /* Altura específica para Equipos */
+    overflow-y: auto;        /* Barra de desplazamiento en altura */
+    padding: 10px;
+    border: 1px solid #ccc;  
+}
+
+.items-menu-equipos li img {
+    margin-right: 10px;
+}
 
 #accordian a {
     color: #fff;
@@ -62,11 +117,45 @@ li {
 }
 
 ul {
-    padding-inline-start: 3px;
+    padding-inline-start: 6px;
     padding-left: 2px;
 }
 
 
 .items-menu {
     background-color: black;
+}
+
+.items-menu-paises{
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.items-menu-paises li{
+    display: flex; 
+     /* Alinea verticalmente la imagen y el texto */
+    margin-bottom: 10px; /* Espaciado entre cada elemento */
+}
+
+.items-menu-paises li img {
+    margin-right: 10px; /* Espaciado entre la imagen y el texto */
+    width: 24px; /* Tamaño de las imágenes (puedes ajustar según necesites) */
+    height: auto; /* Mantiene la proporción de la imagen */
+    align-items: center;
+  }
+  
+  .items-menu-paises li a {
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    color: #000; /* Estilo del texto */
+    font-size: 16px; /* Ajusta el tamaño del texto */
+  }
+  
+  .items-menu-paises li a:hover {
+    color: #007BFF; /* Cambia el color al pasar el cursor (opcional) */
+  }
+
+.botlink,
+.botlink2 {
+  height: auto; 
 }

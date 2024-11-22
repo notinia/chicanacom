@@ -9,8 +9,9 @@
     flex-direction: column;
     align-items: center;
     width: 50vw;
-    height: 1080px;
-    background-color: chocolate;
+    height: auto;
+    padding-bottom: 50px;
+    background-color: rgba(33, 33, 26, 0.341);
 }
 
 #manejaGP {
@@ -21,7 +22,7 @@
     max-width: 600px;
     justify-items: center;
     align-items: center;
-    background-color: blueviolet;
+    background-color: rgb(255, 64, 0);
 }
 
 #manejaGP #titulo {
@@ -59,6 +60,7 @@
 
 #tablaCarreras table {
     width: 100%;
+    background-color: rgb(255, 210, 182);
     text-align: center;
     border-spacing: 1.5px;
     table-layout: fixed;
@@ -68,7 +70,7 @@
 #tablaCarreras a {
     color: white;
     text-decoration: underline;
-    background-color: rgb(202, 20, 20);;
+    background-color: rgb(202, 20, 20);
 }
 
 .tituloin {
@@ -77,7 +79,8 @@
     background-color: rgb(69, 64, 64);
 }
 
-th, td {
+th,
+td {
     border: 1px solid black;
 }
 
@@ -85,7 +88,6 @@ th, td {
     background-color: rgb(202, 20, 20);
     font-weight: 700;
     color: white;
-    text-shadow: 1px 1px 1px #000;
     word-wrap: break-word;
     width: 18%;
 }
@@ -111,5 +113,29 @@ th, td {
     padding: 10px;
     border: 1px solid #ddd;
     margin-top: 10px;
-  }
-  
+}
+
+
+.en-vivo {
+    background-color: green;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.finalizada {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.futura {
+    background-color: yellow;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}

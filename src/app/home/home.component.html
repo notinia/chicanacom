@@ -48,7 +48,7 @@
                     <!-- Iteración sobre las sesiones -->
                     <ng-container *ngFor="let sesion of sesionesProximaCarrera; let i = index">
                         <tr>
-                            <td class="session-time">
+                            <td class="session-time" [ngClass]="getEstadoClase(sesion.fecha)">
                                 <span>{{ isLive(sesion.fecha) }}</span> <!-- Usar función isLive -->
                             </td>
                             <td class="session-type"
@@ -73,7 +73,7 @@
                                     <ul>
                                         <li>
                                             Circuito:
-                                            <a href="{{ sesion.circuito.url }}">{{ sesion.circuito.circuitName }}</a>
+                                            <a href="{{ sesion.circuito.url }}" target="_blank">{{ sesion.circuito.circuitName }}</a>
                                         </li>
                                     </ul>
                                 </div>

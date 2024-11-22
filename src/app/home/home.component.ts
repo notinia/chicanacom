@@ -45,7 +45,7 @@ export class HomeComponent {
 
   weekday = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-  constructor(private carreraService: CarrerasService) {}
+  constructor(private carreraService: CarrerasService) { }
 
   ngOnInit(): void {
     this.carreraService.getCarrerasLimitadas().subscribe({
@@ -118,6 +118,19 @@ export class HomeComponent {
       return 'Finalizada'; // Más de 1 hora después
     } else {
       return fecha.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase() + " " + fecha.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); // Antes de la fecha
-    }
-  }
+    }
+  }
+
+  getEstadoClase(fecha: Date): string {
+    const ahora = new Date(); // Hora actual
+    const diferenciaMinutos = (fecha.getTime() - ahora.getTime()) / (1000 * 60); // Diferencia en minutos
+
+    if (diferenciaMinutos >= -59 && diferenciaMinutos <= 0) {
+      return 'en-vivo'; // Clase para En Vivo
+    } else if (diferenciaMinutos < -60) {
+      return 'finalizada'; // Clase para Finalizada
+    } else {
+      return 'futura'; // Clase para Futura
+    }
+  }
 }
