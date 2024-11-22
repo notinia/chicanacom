@@ -15,7 +15,7 @@
             <!-- Título de la carrera actual -->
             <div id="titulo">
                 <br>
-                <span *ngIf=" proximaCarrera?.raceName; else loadingText">
+                <span *ngIf="proximaCarrera?.raceName; else loadingText">
                     {{ proximaCarrera.raceName }}
                 </span>
                 <ng-template #loadingText>
@@ -49,27 +49,8 @@
                     <ng-container *ngFor="let sesion of sesionesProximaCarrera; let i = index">
                         <tr>
                             <td class="session-time">
-                                <!-- Check if the session is live -->
-                                <ng-container *ngIf="isLive(sesion.fecha, sesion.tiempo, sessionDuration); else notLive">
-                                  LIVE!
-                                </ng-container>
-                                
-                                <!-- If not live, check if the session has ended -->
-                                <ng-template #notLive>
-                                  <ng-container *ngIf="isEnded(sesion.fecha, sesion.tiempo, sessionDuration); else defaultContent">
-                                    END
-                                  </ng-container>
-                                </ng-template>
-                                
-                                <!-- If neither live nor ended, show the session date and time -->
-                                <ng-template #defaultContent>
-                                  {{ weekday[sesion.fecha.getDay()] }}
-                                  <br>
-                                  {{ sesion.tiempo }} hs
-                                </ng-template>
-                              </td>
-                              
-
+                                <span>{{ isLive(sesion.fecha) }}</span> <!-- Usar función isLive -->
+                            </td>
                             <td class="session-type"
                                 [style.font-weight]="sesion.tipo === 'Carrera' ? 'bold' : 'normal'">
                                 {{ sesion.tipo }}
@@ -89,13 +70,6 @@
                                     <p>
                                         <strong>Descripción:</strong> Información adicional sobre {{ sesion.tipo }}
                                     </p>
-                                    <ul>
-                                        <li>
-                                            Circuito:
-                                            <a href=" {{ sesion.circuito.url }} "> {{ sesion.circuito.circuitName }}
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </div>
                             </td>
                         </tr>
@@ -103,5 +77,6 @@
                 </tbody>
             </table>
         </div>
+        
     </div>
 </div>
