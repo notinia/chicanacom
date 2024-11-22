@@ -1,4 +1,84 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DatabaseService } from '../database.service';
+
+export interface Conductor {
+  driver_number: number;
+  full_name: string;
+  team_name: string;
+  country_code: string;
+  headshot_url: string;
+}
+
+@Component({
+  selector: 'app-conductores',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './conductores.component.html',
+  styleUrls: ['./conductores.component.css'],
+})
+
+export class ConductoresComponent implements OnInit {
+  conductores: Conductor[] = [];
+  conductoresUnicos: Conductor[] = [];
+  conductoresPaginados: Conductor[] = [];
+  pageSize = 10;
+  currentPage = 1;
+  totalPages = 0;
+
+  constructor(private databaseService: DatabaseService) {}
+
+  ngOnInit(): void {
+    this.databaseService.getConductores().subscribe(data => {
+      console.log(data);
+      this.conductores = Object.values(data); // Convierte los datos de Firebase a un array
+      this.filtrarConductoresUnicos();
+      this.calcularTotalPaginas();
+      this.setPage(this.currentPage);
+    });
+  }
+
+  filtrarConductoresUnicos() {
+    const nombresUnicos = new Set<string>();
+    this.conductoresUnicos = this.conductores.filter(conductor => {
+      if (!nombresUnicos.has(conductor.full_name)) {
+        nombresUnicos.add(conductor.full_name);
+        return true;
+      }
+      return false;
+    });
+  }
+
+  calcularTotalPaginas() {
+    this.totalPages = Math.ceil(this.conductoresUnicos.length / this.pageSize);
+  }
+
+  setPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    const startIndex = (page - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.conductoresPaginados = this.conductoresUnicos.slice(startIndex, endIndex);
+    this.currentPage = page;
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.setPage(this.currentPage - 1);
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.setPage(this.currentPage + 1);
+    }
+  }
+}
+
+
+
+/*
+OLD
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -84,3 +164,4 @@ export class ConductoresComponent implements OnInit {
     }
   }
 }
+*/
