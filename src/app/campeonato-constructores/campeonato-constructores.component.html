@@ -1,0 +1,26 @@
+<h2>Campeonato de Constructores</h2>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Posicion</th>
+            <th>Constructor</th>
+            <th>Nacionalidad</th>
+            <th>Victorias</th>
+            <th>Puntos</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let standing of standings">
+            <td>{{ standing.position }}</td>
+            <td>
+                <a href="{{ standing.Constructor.url }}">
+                    {{ standing.Constructor.name }}
+                </a>
+            </td>
+            <td>{{ standing.Constructor.nationality }}</td>
+            <td>{{ standing.wins }}</td>
+            <td>{{ standing.points }}</td>
+        </tr>
+    </tbody>
+</table>

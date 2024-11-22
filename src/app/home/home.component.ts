@@ -108,7 +108,6 @@ export class HomeComponent {
   isLive(fecha: Date): string {
     const ahora = new Date(); // Hora actual
     const diferenciaHoras = (fecha.getTime() - ahora.getTime()) / (1000 * 60 * 60); // Diferencia en horas
-  
     if (diferenciaHoras >= 0 && diferenciaHoras <= 2) {
       return 'en vivo'; // Dentro del rango de 2 horas
     } else if (diferenciaHoras < 0) {

@@ -5,6 +5,7 @@ import { RegisterComponent } from './register/register.component';
 import { CampeonatoConductoresComponent } from './campeonato-conductores/campeonato-conductores.component';
 import { AuthGuard } from './auth.guard';
 import { LoginGuard } from './login.guard';
+import { CampeonatoConstructoresComponent } from './campeonato-constructores/campeonato-constructores.component';
 export const routes: Routes = [
   {
     path: 'home',
@@ -20,7 +21,12 @@ export const routes: Routes = [
     path: 'campeonatoConductores',
     component: CampeonatoConductoresComponent,
     canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
-  },
+  },
+  {
+    path: 'campeonatoConstructores',
+    component: CampeonatoConstructoresComponent,
+    canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
+  },
   {
     path: 'carreras',
     component: CarrerasComponent,
@@ -35,13 +41,13 @@ export const routes: Routes = [
     path: 'register',
     component: RegisterComponent
   },
-  { 
-    path: '', 
-    redirectTo: '/login', 
-    pathMatch: 'full' 
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
   },
-  { 
-    path: '**', 
+  {
+    path: '**',
     redirectTo: '/login',
   }
 ];

@@ -70,6 +70,13 @@
                                     <p>
                                         <strong>Descripción:</strong> Información adicional sobre {{ sesion.tipo }}
                                     </p>
+                                    <ul>
+                                        <li>
+                                            Circuito:
+                                            <a href=" {{ sesion.circuito.url }} "> {{ sesion.circuito.circuitName }}
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </td>
                         </tr>
