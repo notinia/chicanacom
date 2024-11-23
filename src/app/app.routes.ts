@@ -10,28 +10,29 @@ export const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('./home/home.component').then(m => m.HomeComponent),
-    canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
+    //canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
   },
   {
     path: 'conductores',
     loadComponent: () => import('./conductores/conductores.component').then(m => m.ConductoresComponent),
-    canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
+    //canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
   },
   {
     path: 'campeonatoConductores',
     component: CampeonatoConductoresComponent,
-    canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
+    //canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
   },
   {
     path: 'campeonatoConstructores',
     component: CampeonatoConstructoresComponent,
-    canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
+    //canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
   },
   {
     path: 'carreras',
     component: CarrerasComponent,
-    canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
+    //canActivate: [AuthGuard]  // Protege la ruta con AuthGuard
   },
+  /*
   {
     path: 'login',
     component: LoginComponent,
@@ -41,13 +42,14 @@ export const routes: Routes = [
     path: 'register',
     component: RegisterComponent
   },
+  */
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: '/login',
+    redirectTo: '/home',
   }
 ];
